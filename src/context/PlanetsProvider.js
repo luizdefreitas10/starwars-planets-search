@@ -5,6 +5,7 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filterByName, setFilterByName] = useState('');
 
   const planetsFromApi = async () => {
     const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -20,11 +21,22 @@ function PlanetsProvider({ children }) {
 
   const contextValue = {
     planets,
+    setFilterByName,
   };
 
   useEffect(() => {
     alteredPlanets();
+    // console.log(planets);
   }, []);
+
+  useEffect(() => {
+    if (filterByName === '') {
+      alteredPlanets();
+    } else {
+      setPlanets(planets.filter((planet) => planet.name.toLowerCase()
+        .includes(filterByName.toLowerCase())));
+    }
+  }, [filterByName]);
 
   return (
     <PlanetsContext.Provider value={ contextValue }>
