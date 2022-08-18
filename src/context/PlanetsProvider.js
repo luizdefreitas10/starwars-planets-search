@@ -33,8 +33,14 @@ function PlanetsProvider({ children }) {
     if (filterByName === '') {
       alteredPlanets();
     } else {
-      setPlanets(planets.filter((planet) => planet.name.toLowerCase()
-        .includes(filterByName.toLowerCase())));
+      const getPlanets = async () => {
+        const data = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
+          .then((response) => response.json());
+        const resultPlanets = data.resultPlanetss;
+        setPlanets(resultPlanets.filter((planet) => planet.name.toLowerCase()
+          .includes(filterByName.toLowerCase())));
+      };
+      getPlanets();
     }
   }, [filterByName]);
 
