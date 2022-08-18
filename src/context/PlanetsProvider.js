@@ -36,7 +36,7 @@ function PlanetsProvider({ children }) {
       const getPlanets = async () => {
         const data = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
           .then((response) => response.json());
-        const resultPlanets = data.resultPlanetss;
+        const resultPlanets = data.results;
         setPlanets(resultPlanets.filter((planet) => planet.name.toLowerCase()
           .includes(filterByName.toLowerCase())));
       };
