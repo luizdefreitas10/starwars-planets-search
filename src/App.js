@@ -1,9 +1,16 @@
-import React from 'react';
-import './App.css';
+import React, { useEffect } from 'react';
+import Table from './components/Table';
+import fetchApi from './services/fetchApi';
 
 function App() {
+  useEffect(() => {
+    fetchApi();
+  }, []);
   return (
-    <span>Hello, App!</span>
+    <div>
+      <span>App</span>
+      <Table />
+    </div>
   );
 }
 
