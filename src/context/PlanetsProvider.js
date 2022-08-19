@@ -4,7 +4,7 @@ import PlanetsContext from './PlanetsContext';
 // import fetchApi from '../services/fetchApi';
 
 function PlanetsProvider({ children }) {
-  const columnFilterArray = ['population', 'orbital_period',
+  // const columnFilterArray = ['population', 'orbital_period',
     'diameter', 'rotation_period', 'surface_water'];
   const [planets, setPlanets] = useState([]);
   const [filterByName, setFilterByName] = useState('');
