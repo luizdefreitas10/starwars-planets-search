@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
-// import fetchApi from '../services/fetchApi';
 
 function PlanetsProvider({ children }) {
   // const columnFilterArray = ['population', 'orbital_period',
@@ -11,7 +10,7 @@ function PlanetsProvider({ children }) {
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('0');
-  const [filteredObj, setFilteredObj] = useState([]);
+  // const [filteredObj, setFilteredObj] = useState([]);
 
   // const [filterByNumericValues, setFilterByNumericValues] = useState([{
   //   column: 'population',
@@ -20,11 +19,11 @@ function PlanetsProvider({ children }) {
   // }]);
 
   const handelClickFilter = () => {
-    const filterNumericValuesObj = {
-      column,
-      comparison,
-      value,
-    };
+    // const filterNumericValuesObj = {
+    //   column,
+    //   comparison,
+    //   value,
+    // };
     // const filteredColumn = columnFilterArray.filter((option) => option === column);
     // console.log(filteredColumn);
     if (comparison === 'maior que') {
@@ -36,7 +35,7 @@ function PlanetsProvider({ children }) {
     if (comparison === 'igual a') {
       setPlanets(planets.filter((planet) => Number(planet[column]) === Number(value)));
     }
-    setFilteredObj(...filteredObj, filterNumericValuesObj);
+    // setFilteredObj(...filteredObj, filterNumericValuesObj);
   };
 
   const planetsFromApi = async () => {
