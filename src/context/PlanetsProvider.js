@@ -4,8 +4,40 @@ import PlanetsContext from './PlanetsContext';
 // import fetchApi from '../services/fetchApi';
 
 function PlanetsProvider({ children }) {
+  const columnFilterArray = ['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water'];
   const [planets, setPlanets] = useState([]);
   const [filterByName, setFilterByName] = useState('');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('0');
+  const [filteredObj, setFilteredObj] = useState([]);
+
+  // const [filterByNumericValues, setFilterByNumericValues] = useState([{
+  //   column: 'population',
+  //   comparison: 'maior que',
+  //   value: 0,
+  // }]);
+
+  const handelClickFilter = () => {
+    const filterNumericValuesObj = {
+      column,
+      comparison,
+      value,
+    };
+    // const filteredColumn = columnFilterArray.filter((option) => option === column);
+    // console.log(filteredColumn);
+    if (comparison === 'maior que') {
+      setPlanets(planets.filter((planet) => Number(planet[column]) > Number(value)));
+    }
+    if (comparison === 'menor que') {
+      setPlanets(planets.filter((planet) => Number(planet[column]) < Number(value)));
+    }
+    if (comparison === 'igual a') {
+      setPlanets(planets.filter((planet) => Number(planet[column]) === Number(value)));
+    }
+    setFilteredObj(...filteredObj, filterNumericValuesObj);
+  };
 
   const planetsFromApi = async () => {
     const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -22,6 +54,13 @@ function PlanetsProvider({ children }) {
   const contextValue = {
     planets,
     setFilterByName,
+    column,
+    comparison,
+    value,
+    setColumn,
+    setComparison,
+    setValue,
+    handelClickFilter,
   };
 
   useEffect(() => {

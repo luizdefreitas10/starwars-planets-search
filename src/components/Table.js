@@ -6,7 +6,7 @@ function Table() {
   const planetHeaders = ['name', 'rotation_period', 'orbital_period',
     'diameter', 'climate', 'gravity', 'terrain',
     'surface_water', 'population', 'films', 'created', 'edited', 'url'];
-  // console.log(planets);
+  console.log(planets);
   // console.log(planetHeaders);
   return (
     <table border="1">

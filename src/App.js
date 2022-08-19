@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import NumberFilter from './components/NumberFilter';
 import Table from './components/Table';
 import PlanetsContext from './context/PlanetsContext';
 import fetchApi from './services/fetchApi';
@@ -17,6 +18,7 @@ function App() {
         data-testid="name-filter"
         onChange={ (event) => setFilterByName(event.target.value) }
       />
+      <NumberFilter />
       <Table />
     </div>
   );
