@@ -5,7 +5,7 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   // const columnFilterArray = ['population', 'orbital_period',
-    'diameter', 'rotation_period', 'surface_water'];
+  //   'diameter', 'rotation_period', 'surface_water'];
   const [planets, setPlanets] = useState([]);
   const [filterByName, setFilterByName] = useState('');
   const [column, setColumn] = useState('population');
