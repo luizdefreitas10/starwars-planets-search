@@ -48,6 +48,12 @@ function PlanetsProvider({ children }) {
     return data.results;
   };
 
+  const alteredPlanets = async () => {
+    const result = await planetsFromApi();
+    result.map((planet) => delete planet.residents);
+    setPlanets(result);
+  };
+
   const contextValue = {
     planets,
     filterByName,
@@ -64,11 +70,6 @@ function PlanetsProvider({ children }) {
   };
 
   useEffect(() => {
-    const alteredPlanets = async () => {
-      const result = await planetsFromApi();
-      result.map((planet) => delete planet.residents);
-      setPlanets(result);
-    };
     alteredPlanets();
     // console.log(alteredPlanets);
   }, []);
