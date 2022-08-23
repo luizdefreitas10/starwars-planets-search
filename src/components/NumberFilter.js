@@ -3,7 +3,6 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function NumberFilter() {
   const {
-    setcolumnFilterArray,
     columnFilterArray,
     handelClickFilter,
     column,
