@@ -3,6 +3,8 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function NumberFilter() {
   const {
+    setcolumnFilterArray,
+    columnFilterArray,
     handelClickFilter,
     column,
     comparison,
@@ -10,6 +12,13 @@ function NumberFilter() {
     setColumn,
     setComparison,
     setValue } = useContext(PlanetsContext);
+
+  const handleChangeColumn = (event) => {
+    setColumn(event.target.value);
+    // const mapOfColumnFilter = columnFilterArray.filter((option) => option !== column);
+    // setcolumnFilterArray(mapOfColumnFilter);
+    // console.log(mapOfColumnFilter);
+  };
 
   return (
     <div>
@@ -20,13 +29,11 @@ function NumberFilter() {
           id="select-id"
           data-testid="column-filter"
           value={ column }
-          onChange={ (event) => setColumn(event.target.value) }
+          onChange={ handleChangeColumn }
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          { columnFilterArray.map((option, index) => (
+            <option key={ index }>{option}</option>
+          )) }
         </select>
       </label>
       <label htmlFor="operator-id">

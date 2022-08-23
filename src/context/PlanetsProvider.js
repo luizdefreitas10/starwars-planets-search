@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
-  // const columnFilterArray = ['population', 'orbital_period',
-  //   'diameter', 'rotation_period', 'surface_water'];
+  const [columnFilterArray, setcolumnFilterArray] = useState(['population',
+    'orbital_period',
+    'diameter', 'rotation_period', 'surface_water']);
+
   const [planets, setPlanets] = useState([]);
   const [filterByName, setFilterByName] = useState('');
   const [column, setColumn] = useState('population');
@@ -24,7 +26,7 @@ function PlanetsProvider({ children }) {
     //   comparison,
     //   value,
     // };
-    // const filteredColumn = columnFilterArray.filter((option) => option === column);
+    const filteredColumn = columnFilterArray.filter((option) => option !== column);
     // console.log(filteredColumn);
     if (comparison === 'maior que') {
       setPlanets(planets.filter((planet) => Number(planet[column]) > Number(value)));
@@ -36,6 +38,8 @@ function PlanetsProvider({ children }) {
       setPlanets(planets.filter((planet) => Number(planet[column]) === Number(value)));
     }
     // setFilteredObj(...filteredObj, filterNumericValuesObj);
+    setColumn(filteredColumn[0]);
+    setcolumnFilterArray(filteredColumn);
   };
 
   const planetsFromApi = async () => {
@@ -52,6 +56,7 @@ function PlanetsProvider({ children }) {
 
   const contextValue = {
     planets,
+    filterByName,
     setFilterByName,
     column,
     comparison,
@@ -60,11 +65,13 @@ function PlanetsProvider({ children }) {
     setComparison,
     setValue,
     handelClickFilter,
+    columnFilterArray,
+    setcolumnFilterArray,
   };
 
   useEffect(() => {
     alteredPlanets();
-    // console.log(planets);
+    // console.log(alteredPlanets);
   }, []);
 
   useEffect(() => {
