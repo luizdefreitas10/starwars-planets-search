@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import ApliedFilters from './ApliedFilters';
 
 function NumberFilter() {
   const {
+    renderFilter,
     columnFilterArray,
     handelClickFilter,
     column,
@@ -11,13 +13,6 @@ function NumberFilter() {
     setColumn,
     setComparison,
     setValue } = useContext(PlanetsContext);
-
-  const handleChangeColumn = (event) => {
-    setColumn(event.target.value);
-    // const mapOfColumnFilter = columnFilterArray.filter((option) => option !== column);
-    // setcolumnFilterArray(mapOfColumnFilter);
-    // console.log(mapOfColumnFilter);
-  };
 
   return (
     <div>
@@ -28,10 +23,10 @@ function NumberFilter() {
           id="select-id"
           data-testid="column-filter"
           value={ column }
-          onChange={ handleChangeColumn }
+          onChange={ ({ target }) => setColumn(target.value) }
         >
           { columnFilterArray.map((option, index) => (
-            <option key={ index }>{option}</option>
+            <option value={ option } key={ index }>{option}</option>
           )) }
         </select>
       </label>
@@ -63,6 +58,7 @@ function NumberFilter() {
       >
         Filtrar
       </button>
+      { renderFilter ? <ApliedFilters /> : null }
     </div>
   );
 }
