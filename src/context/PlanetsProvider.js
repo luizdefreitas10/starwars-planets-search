@@ -100,9 +100,9 @@ function PlanetsProvider({ children }) {
     filterPlanets();
   };
 
-  useEffect(() => {
-    filterPlanets();
-  }, [filteredObj]);
+  // useEffect(() => {
+  //   filterPlanets();
+  // }, [filteredObj]);
 
   const contextValue = {
     originalApiPlanets,
