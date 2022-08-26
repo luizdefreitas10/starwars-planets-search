@@ -4,6 +4,7 @@ import ApliedFilters from './ApliedFilters';
 
 function NumberFilter() {
   const {
+    setRenderFilter,
     renderFilter,
     columnFilterArray,
     handelClickFilter,

@@ -56,6 +56,7 @@ function PlanetsProvider({ children }) {
   const filterPlanets = () => {
     let original = [...originalApiPlanets];
     filteredObj.forEach((o) => {
+      console.log(o);
       const filterForeach = (columnForeach, valueForeach) => {
         if (comparison === 'maior que') {
           return (+columnForeach) > (+valueForeach);
@@ -66,9 +67,14 @@ function PlanetsProvider({ children }) {
         if (comparison === 'igual a') {
           return (+columnForeach) === (+valueForeach);
         }
+        console.log('entrei');
       };
+
       original = original.filter((p) => filterForeach(p[o.column], o.value));
+      console.log(original);
     });
+    console.log('entrei');
+    console.log(original);
     setPlanets(original);
   };
 
@@ -85,18 +91,21 @@ function PlanetsProvider({ children }) {
     const columnFilterSelected = filteredObj.filter((o) => o.column === obj.column);
     setcolumnFilterArray([...columnFilterArray, columnFilterSelected[0].column]);
     const deleteFilterSelected = filteredObj.filter((o) => o.column !== obj.column);
+    console.log(deleteFilterSelected);
     setFilteredObj([...deleteFilterSelected]);
     // console.log(alteredPlanets());
-    console.log(columnFilterSelected);
+    console.log(filteredObj);
+    // console.log(columnFilterSelected);
     console.log(deleteFilterSelected);
     filterPlanets();
   };
 
-  // useEffect(() => {
-  //   filterPlanets();
-  // }, [filteredObj]);
+  useEffect(() => {
+    filterPlanets();
+  }, [filteredObj]);
 
   const contextValue = {
+    originalApiPlanets,
     planets,
     filterByName,
     setFilterByName,
@@ -110,6 +119,7 @@ function PlanetsProvider({ children }) {
     columnFilterArray,
     setcolumnFilterArray,
     renderFilter,
+    setRenderFilter,
     filteredObj,
     handleDeleteFilter,
   };

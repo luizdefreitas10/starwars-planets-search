@@ -5,7 +5,7 @@ import RemoveFilter from './RemoveFilter';
 function ApliedFilters() {
   const { filteredObj,
     handleDeleteFilter } = useContext(PlanetsContext);
-  console.log(filteredObj);
+  // console.log(filteredObj);
 
   return (
 

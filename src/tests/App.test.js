@@ -1,59 +1,67 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import {  screen, waitFor } from '@testing-library/react';
 import App from '../App';
-import PlanetsProvider from '../context/PlanetsProvider';
+import {renderWithContext} from './RenderWithContext';
 import mock from './mock';
+import {act} from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 
-const fetchApi = () => {
-  jest.spyOn(global, 'fetch');
-  global.fetch.mockResolvedValue({
-    json: jest.fn().mockResolvedValue(mock),
-  });
-}
-
-describe('Testando App', () => {
-  beforeEach(fetchApi);
-  afterEach(() => jest.clearAllMocks());
-  it('verifica se realiza a requisicao a api e se retorna uma tabela de informacoes', async () => {
-    render(
-      <PlanetsProvider>
-        <App />
-      </PlanetsProvider>
-    );
-    await waitFor(() => {
-      const table = screen.getAllByRole('row');
-      expect(table).toHaveLength(11);
-      const nameFilter = screen.getByTestId('name-filter');
-      expect(nameFilter).toBeInTheDocument();
-      const columnFilter = screen.getByTestId('column-filter');
-      expect(columnFilter).toBeInTheDocument();
-      const comparisonFilter = screen.getByTestId('comparison-filter');
-      expect(comparisonFilter).toBeInTheDocument();
-      const valueFilter = screen.getByTestId('value-filter');
-      expect(valueFilter).toBeInTheDocument();
-      const buttonFilter = screen.getByTestId('button-filter');
-      expect(buttonFilter).toBeInTheDocument();
+describe('verificar requisito 5', () => {
+  test('verificar o title',async() =>{
+    jest.spyOn(global,"fetch");
+    global.fetch.mockResolvedValue({
+      json:jest.fn().mockResolvedValue(mock),
     });
-  });
-
-  it('verificando inputs', () => {
-    render(
-    <PlanetsProvider>
-      <App />
-    </PlanetsProvider>
-    );
-
-    const inputFilter = screen.getByPlaceholderText('planet name');
-    expect(inputFilter).toBeInTheDocument();
-    const columnFilter = screen.getByTestId('column-filter');
-    expect(columnFilter).toBeInTheDocument();
-    const comparisonFilter = screen.getByTestId('comparison-filter');
-    expect(comparisonFilter).toBeInTheDocument();
-    const valueFilter = screen.getByTestId('value-filter');
-    expect(valueFilter).toBeInTheDocument();
-    const buttonFilter = screen.getByTestId('button-filter');
-    expect(buttonFilter).toBeInTheDocument();
-  });
-
+    await act(async () => renderWithContext(<App/>));
+  const filterButton = screen.getByRole('button',{name:/filtrar/i})
+  expect(filterButton).toBeInTheDocument();
+  userEvent.click(filterButton)
+  screen.logTestingPlaygroundURL()
 })
+test('verificar planetas filtrados', async() => {
+  jest.spyOn(global,"fetch");
+  global.fetch.mockResolvedValue({
+    json:jest.fn().mockResolvedValue(mock),
+});
+await act(async() => renderWithContext(<App/>));
+const valueFilter = screen.getByTestId('value-filter')
+const columnFilter = screen.getByTestId('column-filter')
+const comparisonFilter = screen.getByTestId('comparison-filter')
+const filterButton = screen.getByRole('button',{name:/Filtrar/i})
 
+userEvent.selectOptions(columnFilter, 'surface_water')
+userEvent.selectOptions(comparisonFilter, 'igual a')
+userEvent.type(valueFilter, '1')
+await waitFor(() => screen.getByText('Tatooine'))
+userEvent.click(filterButton)
+
+expect(columnFilter).toBeInTheDocument();
+expect(comparisonFilter).toBeInTheDocument();
+expect(valueFilter).toBeInTheDocument();
+expect(filterButton).toBeInTheDocument();
+
+});
+test('verificar planetas filtrados', async() => {
+  jest.spyOn(global,"fetch");
+  global.fetch.mockResolvedValue({
+    json:jest.fn().mockResolvedValue(mock),
+  });
+
+await act(async() => renderWithContext(<App/>));
+const valueFilter = screen.getByTestId('value-filter')
+const columnFilter = screen.getByTestId('column-filter')
+const comparisonFilter = screen.getByTestId('comparison-filter')
+const filterButton = screen.getByRole('button',{name:/Filtrar/i})
+
+userEvent.selectOptions(columnFilter,'surface_water')
+userEvent.selectOptions(comparisonFilter,'menor que')
+userEvent.type(valueFilter,'1')
+await waitFor(() => screen.getByText('Tatooine'))
+userEvent.click(filterButton)
+
+expect(columnFilter).toBeInTheDocument();
+expect(comparisonFilter).toBeInTheDocument();
+expect(valueFilter).toBeInTheDocument();
+expect(filterButton).toBeInTheDocument();
+});
+});
