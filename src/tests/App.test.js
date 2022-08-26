@@ -6,24 +6,28 @@ import mock from './mock';
 import {act} from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 
-describe('verificar requisito 5', () => {
-  test('verificar o title',async() =>{
+describe('Verificando App', () => {
+  test('se renderiza o botão corretamente',async() =>{
     jest.spyOn(global,"fetch");
     global.fetch.mockResolvedValue({
       json:jest.fn().mockResolvedValue(mock),
     });
-    await act(async () => renderWithContext(<App/>));
+
+await act(async () => renderWithContext(<App/>));
+
   const filterButton = screen.getByRole('button',{name:/filtrar/i})
   expect(filterButton).toBeInTheDocument();
   userEvent.click(filterButton)
   screen.logTestingPlaygroundURL()
 })
-test('verificar planetas filtrados', async() => {
+test('se renderiza os planetas filtrados', async() => {
   jest.spyOn(global,"fetch");
   global.fetch.mockResolvedValue({
     json:jest.fn().mockResolvedValue(mock),
 });
+
 await act(async() => renderWithContext(<App/>));
+
 const valueFilter = screen.getByTestId('value-filter')
 const columnFilter = screen.getByTestId('column-filter')
 const comparisonFilter = screen.getByTestId('comparison-filter')
@@ -41,13 +45,14 @@ expect(valueFilter).toBeInTheDocument();
 expect(filterButton).toBeInTheDocument();
 
 });
-test('verificar planetas filtrados', async() => {
+test('se os filtros funcionam corretamente', async() => {
   jest.spyOn(global,"fetch");
   global.fetch.mockResolvedValue({
     json:jest.fn().mockResolvedValue(mock),
   });
 
 await act(async() => renderWithContext(<App/>));
+
 const valueFilter = screen.getByTestId('value-filter')
 const columnFilter = screen.getByTestId('column-filter')
 const comparisonFilter = screen.getByTestId('comparison-filter')
