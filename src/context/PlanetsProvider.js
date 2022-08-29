@@ -53,31 +53,6 @@ function PlanetsProvider({ children }) {
     setOriginalApiPlanets(result);
   };
 
-  const filterPlanets = () => {
-    let original = [...originalApiPlanets];
-    filteredObj.forEach((o) => {
-      console.log(o);
-      const filterForeach = (columnForeach, valueForeach) => {
-        if (comparison === 'maior que') {
-          return (+columnForeach) > (+valueForeach);
-        }
-        if (comparison === 'menor que') {
-          return (+columnForeach) < (+valueForeach);
-        }
-        if (comparison === 'igual a') {
-          return (+columnForeach) === (+valueForeach);
-        }
-        console.log('entrei');
-      };
-
-      original = original.filter((p) => filterForeach(p[o.column], o.value));
-      console.log(original);
-    });
-    console.log('entrei');
-    console.log(original);
-    setPlanets(original);
-  };
-
   const handleDeleteFilter = (obj) => {
     if (obj === 'deleteFilters') {
       setcolumnFilterArray(['population',
@@ -92,17 +67,50 @@ function PlanetsProvider({ children }) {
     setcolumnFilterArray([...columnFilterArray, columnFilterSelected[0].column]);
     const deleteFilterSelected = filteredObj.filter((o) => o.column !== obj.column);
     console.log(deleteFilterSelected);
-    setFilteredObj([...deleteFilterSelected]);
+    setFilteredObj(deleteFilterSelected);
+    console.log(columnFilterSelected);
     // console.log(alteredPlanets());
     console.log(filteredObj);
     // console.log(columnFilterSelected);
-    console.log(deleteFilterSelected);
-    filterPlanets();
+    // filterPlanets();
   };
 
-  // useEffect(() => {
-  //   filterPlanets();
-  // }, [filteredObj]);
+  useEffect(() => {
+    const filterPlanets = () => {
+      if (filteredObj.length === 0) {
+        setPlanets(originalApiPlanets);
+        return;
+      }
+      let original = [...originalApiPlanets];
+      console.log(original);
+      filteredObj.forEach((o) => {
+        console.log(o);
+        const filterForeach = (columnForeach, valueForeach) => {
+          // console.log('entrei');
+          // console.log(columnForeach);
+          // console.log(valueForeach);
+          if (o.comparison === 'maior que') {
+            // console.log('entrei no maior que');
+            // console.log(columnForeach);
+            // console.log(valueForeach);
+            return (+columnForeach) > (+valueForeach);
+          }
+          if (o.comparison === 'menor que') {
+            return (+columnForeach) < (+valueForeach);
+          }
+          if (o.comparison === 'igual a') {
+            return (+columnForeach) === (+valueForeach);
+          }
+        };
+        original = original.filter((p) => filterForeach(p[o.column], o.value));
+        console.log(original);
+        setPlanets(original);
+      });
+      console.log('entrei');
+      console.log(original);
+    };
+    filterPlanets();
+  }, [filteredObj]);
 
   const contextValue = {
     originalApiPlanets,
