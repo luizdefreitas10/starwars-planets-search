@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import ApliedFilters from './ApliedFilters';
+import SortedFilters from './SortedFilters';
 
 function NumberFilter() {
   const {
@@ -59,6 +60,7 @@ function NumberFilter() {
         Filtrar
       </button>
       { renderFilter ? <ApliedFilters /> : null }
+      <SortedFilters />
     </div>
   );
 }

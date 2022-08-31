@@ -14,6 +14,8 @@ function PlanetsProvider({ children }) {
   const [renderFilter, setRenderFilter] = useState(false);
   const [filteredObj, setFilteredObj] = useState([]);
   const [originalApiPlanets, setOriginalApiPlanets] = useState([]);
+  const [sortFilter, setSortFilter] = useState('');
+  const [columnSort, setColumnSort] = useState('population');
 
   const handelClickFilter = () => {
     const id = filteredObj.length;
@@ -53,6 +55,17 @@ function PlanetsProvider({ children }) {
     setOriginalApiPlanets(result);
   };
 
+  const handleSort = () => {
+    if (sortFilter === 'ASC') {
+      return setPlanets([...[...planets.filter((e) => e[columnSort] !== 'unknown')
+        .sort((a, b) => a[columnSort] - b[columnSort])],
+      ...[...planets.filter((e) => e[columnSort] === 'unknown')]]);
+    }
+    return setPlanets([...[...planets.filter((e) => e[columnSort] !== 'unknown')
+      .sort((a, b) => b[columnSort] - a[columnSort])],
+    ...[...planets.filter((e) => e[columnSort] === 'unknown')]]);
+  };
+
   const handleDeleteFilter = (obj) => {
     if (obj === 'deleteFilters') {
       setcolumnFilterArray(['population',
@@ -69,10 +82,7 @@ function PlanetsProvider({ children }) {
     console.log(deleteFilterSelected);
     setFilteredObj(deleteFilterSelected);
     console.log(columnFilterSelected);
-    // console.log(alteredPlanets());
     console.log(filteredObj);
-    // console.log(columnFilterSelected);
-    // filterPlanets();
   };
 
   useEffect(() => {
@@ -86,13 +96,7 @@ function PlanetsProvider({ children }) {
       filteredObj.forEach((o) => {
         console.log(o);
         const filterForeach = (columnForeach, valueForeach) => {
-          // console.log('entrei');
-          // console.log(columnForeach);
-          // console.log(valueForeach);
           if (o.comparison === 'maior que') {
-            // console.log('entrei no maior que');
-            // console.log(columnForeach);
-            // console.log(valueForeach);
             return (+columnForeach) > (+valueForeach);
           }
           if (o.comparison === 'menor que') {
@@ -103,11 +107,8 @@ function PlanetsProvider({ children }) {
           }
         };
         original = original.filter((p) => filterForeach(p[o.column], o.value));
-        console.log(original);
         setPlanets(original);
       });
-      console.log('entrei');
-      console.log(original);
     };
     filterPlanets();
   }, [filteredObj]);
@@ -130,6 +131,9 @@ function PlanetsProvider({ children }) {
     setRenderFilter,
     filteredObj,
     handleDeleteFilter,
+    setSortFilter,
+    setColumnSort,
+    handleSort,
   };
 
   useEffect(() => {
